@@ -56,54 +56,31 @@ export default function Component() {
     Deployment: "The process of making a software application available for use in a production environment.",
   })
 
-  const handleSummarize = async () => {
-    if (!videoUrl.trim()) return
+const handleSummarize = async () => {
+  if (!videoUrl.trim()) return;
 
-    setIsLoading(true)
+  setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setSummaryData({
-        globalUnderstanding:
-          "This video provides a comprehensive tutorial on building modern web applications using React and Next.js. The presenter covers fundamental concepts, best practices, and demonstrates how to create a full-stack application with authentication, database integration, and deployment strategies.",
-        detailedUnderstanding:
-          "The video begins with an introduction to React's component-based architecture and explains the benefits of using Next.js for server-side rendering and static site generation. Key topics include state management with hooks, routing in Next.js, API routes for backend functionality, integration with databases like PostgreSQL, implementing authentication with NextAuth.js, styling with Tailwind CSS, and deployment on Vercel. The presenter also discusses performance optimization techniques, SEO considerations, and modern development workflows.",
-        stepByStepBreakdown: [
-          "Introduction and project setup with create-next-app",
-          "Creating the basic component structure and layout",
-          "Setting up routing and navigation between pages",
-          "Implementing user authentication with NextAuth.js",
-          "Database setup and configuration with Prisma ORM",
-          "Building API routes for data fetching and mutations",
-          "Styling the application with Tailwind CSS",
-          "Adding form validation and error handling",
-          "Implementing responsive design patterns",
-          "Testing and debugging the application",
-          "Deployment configuration and going live on Vercel",
-        ],
-        entitiesAndKeywords: [
-          "React",
-          "Next.js",
-          "JavaScript",
-          "TypeScript",
-          "Tailwind CSS",
-          "NextAuth.js",
-          "Prisma",
-          "PostgreSQL",
-          "Vercel",
-          "API Routes",
-          "Server-side Rendering",
-          "Static Site Generation",
-          "Hooks",
-          "Component Architecture",
-          "Authentication",
-          "Database",
-          "Deployment",
-        ],
-      })
-      setIsLoading(false)
-    }, 3000)
+  try {
+   const response = await fetch("http://localhost:8000/summarize", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    vid_url: videoUrl
+  })
+});
+const data = await response.json();
+console.log(data);
+  } catch (error) {
+    console.error("Error summarizing video:", error);
+    // Optionally handle error UI
+  } finally {
+    setIsLoading(false);
   }
+}
+
 
   const handleReset = () => {
     setVideoUrl("")
