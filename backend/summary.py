@@ -13,36 +13,42 @@ MODEL_NAME= os.getenv("MODEL_NAME")
 genai.configure(api_key=api_key)
 
 #get text summary == get sth we will write to the user
-text=""
-prompt_text=f"""
+def get_prompttext(text):
+        prompt_text=f"""
 
-You are an expert technical summarizer and knowledge graph builder.
+        You are an expert technical summarizer and knowledge graph builder.
 
-Given the following text:
+        Given the following text:
 
-{text}
+        "{text}"
 
-Do the following:
+        Do the following:
 
-1. **Goal**: Clearly state the main objective or purpose of the text in in 1-2 sentences.
+        1. **Goal**: Clearly state the main objective or purpose of the text in in 1-2 sentences.
 
-2. **Global Understanding**: Summarize the high-level idea of what is being explained or taught, in 2-4 sentences.
+        2. **Global Understanding**: Summarize the high-level idea of what is being explained or taught, in 2-4 sentences.
 
-3. **Steps (if any)**: If the text contains steps, procedures, or sequential logic, list them clearly in order. Use bullet points.
+        3. **Steps (if any)**: If the text contains steps, procedures, or sequential logic, list them clearly in order. Use bullet points.
 
-4. **Entity Extraction**:
-   - Identify all unique entities or concepts mentioned in the text.
-   - Organize them into the following categories:
-     - People : list them and present the role of each 
-     - Tools / Libraries / Technologies : list them and present what we used them for
-     - Actions / Tasks
-     - Output / Results
-   - Present them as bullet points under each category."""
+        4. **Entity Extraction**:
+          - Identify all unique entities or concepts mentioned in the text.
+          - Organize them into the following categories:
+            - People : list them and present the role of each 
+            - Tools / Libraries / Technologies : list them and present what we used them for
+            - Actions / Tasks
+            - Output / Results
+          - Present them as bullet points under each category."""
+        res=prompt_text.format(text=text)
+        return res
 
-async def get_textual_summary(vid_url,instruction=prompt_text,vid_input=None):
+async def get_textual_summary(vid_url,vid_input=None):
 
     model = genai.GenerativeModel(MODEL_NAME)
     chat = model.start_chat()
+    #get dat transcription babayyyyyyy
+    text=get_transcript(vid_url)
+    instruction =get_prompttext(text)
+   
     response = await chat.send_message_async(instruction)
     result = response.text
 
@@ -50,10 +56,3 @@ async def get_textual_summary(vid_url,instruction=prompt_text,vid_input=None):
     return result
 
 
-if __name__ == "__main__":
-
-      #text=get_transcript("https://www.youtube.com/watch?v=Tw18-4U7mts")
-      #print(text)
-      #print(f"{MODEL_NAME}   -- {api_key}")
-      result =asyncio.run(get_textual_summary("kjk","hi bunbun"))
-      print(result)
