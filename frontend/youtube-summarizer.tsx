@@ -21,6 +21,40 @@ export default function Component() {
   const [isLoading, setIsLoading] = useState(false)
   const [summaryData, setSummaryData] = useState<SummaryData | null>(null)
   const [showVisualSummary, setShowVisualSummary] = useState(false)
+  const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null)
+  const [keywordDefinitions] = useState<Record<string, string>>({
+    React:
+      "A JavaScript library for building user interfaces, particularly web applications, using a component-based architecture.",
+    "Next.js":
+      "A React framework that provides features like server-side rendering, static site generation, and API routes for building full-stack web applications.",
+    JavaScript:
+      "A high-level, interpreted programming language that is one of the core technologies of the World Wide Web, alongside HTML and CSS.",
+    TypeScript:
+      "A strongly typed programming language that builds on JavaScript by adding static type definitions, developed by Microsoft.",
+    "Tailwind CSS":
+      "A utility-first CSS framework that provides low-level utility classes to build custom designs without writing custom CSS.",
+    "NextAuth.js":
+      "A complete open-source authentication solution for Next.js applications, supporting multiple providers and authentication methods.",
+    Prisma:
+      "A next-generation ORM (Object-Relational Mapping) tool that provides type-safe database access and automatic migrations.",
+    PostgreSQL:
+      "A powerful, open-source object-relational database system known for its reliability, feature robustness, and performance.",
+    Vercel:
+      "A cloud platform for static sites and serverless functions that provides deployment and hosting services, particularly optimized for Next.js.",
+    "API Routes":
+      "Server-side functions in Next.js that allow you to build API endpoints within your Next.js application.",
+    "Server-side Rendering":
+      "A technique where web pages are rendered on the server before being sent to the client, improving initial load times and SEO.",
+    "Static Site Generation":
+      "A method of pre-building web pages at build time, resulting in fast-loading static HTML files.",
+    Hooks: "Functions in React that let you use state and other React features in functional components.",
+    "Component Architecture":
+      "A design pattern that breaks down the user interface into reusable, independent components.",
+    Authentication: "The process of verifying the identity of users before granting access to protected resources.",
+    Database:
+      "An organized collection of structured information or data, typically stored electronically in a computer system.",
+    Deployment: "The process of making a software application available for use in a production environment.",
+  })
 
   const handleSummarize = async () => {
     if (!videoUrl.trim()) return
@@ -76,6 +110,10 @@ export default function Component() {
     setAdditionalContext("")
     setSummaryData(null)
     setShowVisualSummary(false)
+  }
+
+  const handleKeywordClick = (keyword: string) => {
+    setSelectedKeyword(selectedKeyword === keyword ? null : keyword)
   }
 
   return (
@@ -267,16 +305,40 @@ export default function Component() {
                   <Hash className="h-5 w-5 text-orange-500" />
                   Entities and Keywords
                 </CardTitle>
-                <CardDescription>Key people, concepts, and terms mentioned</CardDescription>
+                <CardDescription>Key people, concepts, and terms mentioned (click for definitions)</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 <div className="flex flex-wrap gap-2">
                   {summaryData.entitiesAndKeywords.map((keyword, index) => (
-                    <Badge key={index} variant="secondary" className="bg-orange-50 text-orange-700 hover:bg-orange-100">
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className={`cursor-pointer transition-colors ${
+                        selectedKeyword === keyword
+                          ? "bg-orange-200 text-orange-800 hover:bg-orange-300"
+                          : "bg-orange-50 text-orange-700 hover:bg-orange-100"
+                      }`}
+                      onClick={() => handleKeywordClick(keyword)}
+                    >
                       {keyword}
                     </Badge>
                   ))}
                 </div>
+
+                {/* Definition Display */}
+                {selectedKeyword && keywordDefinitions[selectedKeyword] && (
+                  <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="flex items-start gap-2">
+                      <div className="flex-shrink-0 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                        i
+                      </div>
+                      <div className="space-y-1">
+                        <h4 className="font-semibold text-blue-900">{selectedKeyword}</h4>
+                        <p className="text-blue-800 text-sm leading-relaxed">{keywordDefinitions[selectedKeyword]}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
