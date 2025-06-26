@@ -6,11 +6,17 @@ import os
 import json
 import google.generativeai as genai
 import asyncio
-
+from prompt2dict import prompt_2_json
 from fastapi import FastAPI,Query
 from fastapi.middleware.cors import CORSMiddleware
-app = FastAPI()
 
+load_dotenv() 
+
+api_key = os.getenv("GOOGLE_API_KEY")
+MODEL_NAME= os.getenv("MODEL_NAME")
+
+genai.configure(api_key=api_key)
+app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],  # or ["*"] for dev
@@ -29,9 +35,10 @@ class VideoRequest(BaseModel):
 @app.post("/summarize")
 async def get_text_summary(data: VideoRequest):
     result = await get_textual_summary(data.vid_url)
-    return result
+    res=prompt_2_json(result)
+    #result="why god"
+    return res
 
 if __name__ == "__main__":
     import uvicorn
-    #print(GEMINI_API_KEY)
     uvicorn.run(app, host="0.0.0.0", port=8001)

@@ -72,6 +72,13 @@ const handleSummarize = async () => {
   })
 });
 const data = await response.json();
+setSummaryData({
+        globalUnderstanding:data['Goal'],
+        detailedUnderstanding: data['Global Understanding'],
+        stepByStepBreakdown:[data['Steps']],
+        entitiesAndKeywords:["data['Entities']","just","workd"]
+          })
+
 console.log(data);
   } catch (error) {
     console.error("Error summarizing video:", error);

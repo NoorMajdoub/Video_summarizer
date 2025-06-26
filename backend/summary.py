@@ -39,6 +39,7 @@ def get_prompttext(text):
             - Output / Results
           - Present them as bullet points under each category."""
         res=prompt_text.format(text=text)
+        
         return res
 
 async def get_textual_summary(vid_url,vid_input=None):
