@@ -1,3 +1,4 @@
 qwen_vl_utils
 youtube-transcript-api
 google-genai
+python-dotenv

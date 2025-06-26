@@ -12,4 +12,3 @@ def get_transcript(url_vid):
    # frames=get_frames(transcript)
     tran_joined=" ".join((line["text"] for line in transcript))
     return tran_joined
-print(get_transcript("https://www.youtube.com/watch?v=o06MyVhYte4"))
