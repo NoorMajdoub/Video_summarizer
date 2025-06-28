@@ -46,4 +46,5 @@ def prompt_2_json(prompt):
     summary_dict=get_structures(prompt)
     summary_dict["steps"]=get_steps(summary_dict["steps"])
     summary_dict["entities"]=get_entities(summary_dict["entities"])
+    return summary_dict
     
