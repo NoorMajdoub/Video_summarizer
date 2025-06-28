@@ -11,14 +11,14 @@ def get_structures(prompt):
     
     """
     text=prompt.replace("text","video")
-    #print(prompt)
+    print(prompt)
     summary_dict={}
-    sections=text.split("1. **")
-    sections=sections[1].split("2. **")
+    sections=text.split("Goal:")
+    sections=sections[1].split("Global Understanding:")
     summary_dict["goal"]=sections[0]
-    sections=sections[1].split("3. **")
-    summary_dict["gloab_understanding"]=sections[0]
-    sections=sections[1].split("4. **")
+    sections=sections[1].split("Steps:")
+    summary_dict["global_understanding"]=sections[0]
+    sections=sections[1].split("Entity Extraction:")
     summary_dict["steps"]=sections[0]
     summary_dict["entities"]=sections[1]
     return summary_dict
