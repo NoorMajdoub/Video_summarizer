@@ -73,9 +73,9 @@ const handleSummarize = async () => {
 });
 const data = await response.json();
 setSummaryData({
-        globalUnderstanding:data['Goal'],
-        detailedUnderstanding: data['Global Understanding'],
-        stepByStepBreakdown:[data['Steps']],
+        globalUnderstanding:data['goal'],
+        detailedUnderstanding: data['global_understanding'],
+        stepByStepBreakdown:data["steps"],
         entitiesAndKeywords:["data['Entities']","just","workd"]
           })
 

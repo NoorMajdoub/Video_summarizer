@@ -33,8 +33,11 @@ def get_steps(steps):
 
 def get_entities(entities):
     splitted=entities.split("*")
-    splitted=[x.strip() for x in splitted if x.strip()!=""]
-    return splitted[1:]
+    splitted=[x for x in splitted if x.strip()!=""]
+    splitted=[x.split(":") for x in splitted]
+    
+    return splitted
+
 
 def prompt_2_json(prompt):
     """
