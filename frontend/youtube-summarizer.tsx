@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Loader2, Youtube, Eye, Globe, FileText, List, Hash, Sparkles } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -248,79 +250,42 @@ console.log(data);
           </div>
         </div>
         {/* Input Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Youtube className="h-5 w-5" />
-              Video Input
-            </CardTitle>
-            <CardDescription>Paste the YouTube video URL you want to summarize</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <label htmlFor="video-url" className="text-sm font-medium">
-                YouTube Video URL *
-              </label>
-              <Input
-                id="video-url"
-                placeholder="https://www.youtube.com/watch?v=..."
-                value={videoUrl}
-                onChange={(e) => setVideoUrl(e.target.value)}
-                disabled={isLoading}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label htmlFor="additional-context" className="text-sm font-medium">
-                Additional Context (Optional)
-              </label>
-              <Textarea
-                id="additional-context"
-                placeholder="Provide any additional context or specific aspects you'd like the AI to focus on..."
-                value={additionalContext}
-                onChange={(e) => setAdditionalContext(e.target.value)}
-                disabled={isLoading}
-                rows={3}
-              />
-            </div>
-      <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="extract-code"
-                  checked={extractCode}
-                  onCheckedChange={(checked) => setExtractCode(checked as boolean)}
+  {(!showLogin || user) && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Youtube className="h-5 w-5" />
+                Video Input
+              </CardTitle>
+              <CardDescription>Paste the YouTube video URL you want to summarize</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <label htmlFor="video-url" className="text-sm font-medium">
+                  YouTube Video URL *
+                </label>
+                <Input
+                  id="video-url"
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  value={videoUrl}
+                  onChange={(e) => setVideoUrl(e.target.value)}
                   disabled={isLoading}
                 />
-                <label
-                  htmlFor="extract-code"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  Extract code snippets from video {user ? "" : "(Login required)"}
-                </label>
               </div>
-            <div className="flex gap-2">
-              <Button onClick={handleSummarize} disabled={!videoUrl.trim() || isLoading} className="flex-1">
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Currently summarizing...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="mr-2 h-4 w-4" />
-                    Summarize Video
-                  </>
-                )}
-              </Button>
 
-              {summaryData && (
-                <Button variant="outline" onClick={handleReset}>
-                  New Video
-                </Button>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
+              <div className="space-y-2">
+                <label htmlFor="additional-context" className="text-sm font-medium">
+                  Additional Context (Optional)
+                </label>
+                <Textarea
+                  id="additional-context"
+                  placeholder="Provide any additional context or specific aspects you'd like the AI to focus on..."
+                  value={additionalContext}
+                  onChange={(e) => setAdditionalContext(e.target.value)}
+                  disabled={isLoading}
+                  rows={3}
+                />
+              </div>
         {/* Loading State */}
         {isLoading && (
           <Card>
