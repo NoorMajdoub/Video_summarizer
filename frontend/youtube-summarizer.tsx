@@ -1,15 +1,15 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Loader2, Youtube, Eye, Globe, FileText, List, Hash, Sparkles } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,7 +18,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
-
+  Loader2,
+  Youtube,
+  Eye,
+  Globe,
+  FileText,
+  List,
+  Hash,
+  Sparkles,
   UserIcon,
   LogOut,
   Settings,
@@ -27,20 +34,27 @@ import {
   Check,
 } from "lucide-react"
 
-
 interface SummaryData {
   globalUnderstanding: string
   detailedUnderstanding: string
   stepByStepBreakdown: string[]
   entitiesAndKeywords: string[]
-   extractedCode?: CodeBlock[]
+  extractedCode?: CodeBlock[]
 }
+
 interface CodeBlock {
   language: string
   title: string
   code: string
   description: string
 }
+
+interface UserData {
+  name: string
+  email: string
+  avatar?: string
+}
+
 interface VideoHistory {
   id: string
   title: string
@@ -49,27 +63,51 @@ interface VideoHistory {
   date: string
   summary: SummaryData
 }
-interface UserData {
-  name: string
-  email: string
-  avatar?: string
-}
 
 export default function Component() {
   const [videoUrl, setVideoUrl] = useState("")
   const [additionalContext, setAdditionalContext] = useState("")
+  const [extractCode, setExtractCode] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [summaryData, setSummaryData] = useState<SummaryData | null>(null)
   const [showVisualSummary, setShowVisualSummary] = useState(false)
   const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null)
-    const [extractCode, setExtractCode] = useState(false)
-
   const [user, setUser] = useState<UserData | null>(null)
   const [showLogin, setShowLogin] = useState(false)
   const [loginForm, setLoginForm] = useState({ email: "", password: "" })
+  const [copiedCode, setCopiedCode] = useState<string | null>(null)
+  const [videoHistory, setVideoHistory] = useState<VideoHistory[]>([
+    // Mock data for demonstration
+    {
+      id: "1",
+      title: "React Hooks Tutorial - Complete Guide",
+      url: "https://www.youtube.com/watch?v=example1",
+      thumbnail: "/placeholder.svg?height=90&width=160",
+      date: "2024-01-15",
+      summary: {
+        globalUnderstanding:
+          "Comprehensive tutorial covering React Hooks including useState, useEffect, and custom hooks.",
+        detailedUnderstanding: "The video explains the motivation behind hooks, their rules, and practical examples.",
+        stepByStepBreakdown: ["Introduction to Hooks", "useState Hook", "useEffect Hook", "Custom Hooks"],
+        entitiesAndKeywords: ["React", "Hooks", "useState", "useEffect"],
+      },
+    },
+    {
+      id: "2",
+      title: "Next.js 14 App Router Deep Dive",
+      url: "https://www.youtube.com/watch?v=example2",
+      thumbnail: "/placeholder.svg?height=90&width=160",
+      date: "2024-01-10",
+      summary: {
+        globalUnderstanding: "Deep dive into Next.js 14 App Router architecture and new features.",
+        detailedUnderstanding: "Covers server components, streaming, and the new file-based routing system.",
+        stepByStepBreakdown: ["App Router Setup", "Server Components", "Client Components", "Streaming"],
+        entitiesAndKeywords: ["Next.js", "App Router", "Server Components", "Streaming"],
+      },
+    },
+  ])
+  const [selectedHistoryItem, setSelectedHistoryItem] = useState<VideoHistory | null>(null)
 
-   const [copiedCode, setCopiedCode] = useState<string | null>(null)
-  const [videoHistory, setVideoHistory] = useState<VideoHistory[]>([])
   const [keywordDefinitions] = useState<Record<string, string>>({
     React:
       "A JavaScript library for building user interfaces, particularly web applications, using a component-based architecture.",
@@ -103,6 +141,7 @@ export default function Component() {
       "An organized collection of structured information or data, typically stored electronically in a computer system.",
     Deployment: "The process of making a software application available for use in a production environment.",
   })
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
     // Simulate login
@@ -121,15 +160,6 @@ export default function Component() {
     setVideoUrl("")
     setAdditionalContext("")
     setExtractCode(false)
-  }
-  const copyToClipboard = async (code: string, title: string) => {
-    try {
-      await navigator.clipboard.writeText(code)
-      setCopiedCode(title)
-      setTimeout(() => setCopiedCode(null), 2000)
-    } catch (err) {
-      console.error("Failed to copy code:", err)
-    }
   }
 
 const handleSummarize = async () => {
@@ -150,7 +180,7 @@ console.log("hi")
 const data = await response.json();
 console.log("data")
 console.log(data)
-     if (true) {
+     if (extractCode) {
         setSummaryData({
          globalUnderstanding:data['goal'],
         detailedUnderstanding: data['global_understanding'],
@@ -190,24 +220,53 @@ console.log(data);
     setAdditionalContext("")
     setSummaryData(null)
     setShowVisualSummary(false)
+    setExtractCode(false)
+    setSelectedHistoryItem(null)
   }
 
   const handleKeywordClick = (keyword: string) => {
     setSelectedKeyword(selectedKeyword === keyword ? null : keyword)
   }
 
+  const copyToClipboard = async (code: string, title: string) => {
+    try {
+      await navigator.clipboard.writeText(code)
+      setCopiedCode(title)
+      setTimeout(() => setCopiedCode(null), 2000)
+    } catch (err) {
+      console.error("Failed to copy code:", err)
+    }
+  }
+
+  const viewHistoryItem = (item: VideoHistory) => {
+    setSelectedHistoryItem(item)
+    setSummaryData(item.summary)
+    setVideoUrl(item.url)
+    setShowVisualSummary(false)
+  }
+
+  const deleteHistoryItem = (id: string) => {
+    setVideoHistory((prev) => prev.filter((item) => item.id !== id))
+    if (selectedHistoryItem?.id === id) {
+      setSelectedHistoryItem(null)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <div className="mx-auto max-w-4xl space-y-6">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <div className="flex items-center justify-center gap-2">
-            <Youtube className="h-8 w-8 text-red-500" />
-            <h1 className="text-3xl font-bold text-gray-900">AI Video Summarizer</h1>
+        {/* Header with Login */}
+        <div className="flex items-center justify-between">
+          <div className="text-center space-y-2 flex-1">
+            <div className="flex items-center justify-center gap-2">
+              <Youtube className="h-8 w-8 text-red-500" />
+              <h1 className="text-3xl font-bold text-gray-900">AI Video Summarizer</h1>
+            </div>
+            <p className="text-gray-600">Transform any YouTube video into comprehensive, structured summaries</p>
           </div>
-          <p className="text-gray-600">Transform any YouTube video into comprehensive, structured summaries</p>
-        </div>
-     <div className="flex items-center gap-4">
+
+          {/* User Menu */}
+          <div className="flex items-center gap-4">
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -249,8 +308,57 @@ console.log(data);
             )}
           </div>
         </div>
+
+        {/* Login Modal */}
+        {showLogin && !user && (
+          <Card className="max-w-md mx-auto">
+            <CardHeader>
+              <CardTitle>Login to Your Account</CardTitle>
+              <CardDescription>Access your saved summaries and preferences</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div className="space-y-2">
+                  <label htmlFor="login-email" className="text-sm font-medium">
+                    Email
+                  </label>
+                  <Input
+                    id="login-email"
+                    type="email"
+                    placeholder="Enter your email"
+                    value={loginForm.email}
+                    onChange={(e) => setLoginForm((prev) => ({ ...prev, email: e.target.value }))}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="login-password" className="text-sm font-medium">
+                    Password
+                  </label>
+                  <Input
+                    id="login-password"
+                    type="password"
+                    placeholder="Enter your password"
+                    value={loginForm.password}
+                    onChange={(e) => setLoginForm((prev) => ({ ...prev, password: e.target.value }))}
+                    required
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button type="submit" className="flex-1">
+                    Login
+                  </Button>
+                  <Button type="button" variant="outline" onClick={() => setShowLogin(false)}>
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Input Section */}
-  {(!showLogin || user) && (
+        {(!showLogin || user) && (
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -286,6 +394,120 @@ console.log(data);
                   rows={3}
                 />
               </div>
+
+              {/* Code Extraction Option */}
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="extract-code"
+                  checked={extractCode}
+                  onCheckedChange={(checked) => setExtractCode(checked as boolean)}
+                  disabled={isLoading}
+                />
+                <label
+                  htmlFor="extract-code"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Extract code snippets from video {user ? "" : "(Login required)"}
+                </label>
+              </div>
+
+              <div className="flex gap-2">
+                <Button
+                  onClick={handleSummarize}
+                  disabled={!videoUrl.trim() || isLoading || (extractCode && !user)}
+                  className="flex-1"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Currently summarizing...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="mr-2 h-4 w-4" />
+                      Summarize Video
+                    </>
+                  )}
+                </Button>
+
+                {summaryData && (
+                  <Button variant="outline" onClick={handleReset}>
+                    New Video
+                  </Button>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Video History Section - Only show when logged in */}
+        {user && videoHistory.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5 text-indigo-500" />
+                Your Video History
+              </CardTitle>
+              <CardDescription>Previously summarized videos</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3 max-h-96 overflow-y-auto">
+                {videoHistory.map((item) => (
+                  <div
+                    key={item.id}
+                    className={`flex items-center gap-4 p-3 rounded-lg border transition-colors cursor-pointer ${
+                      selectedHistoryItem?.id === item.id
+                        ? "bg-indigo-50 border-indigo-200"
+                        : "bg-gray-50 hover:bg-gray-100 border-gray-200"
+                    }`}
+                    onClick={() => viewHistoryItem(item)}
+                  >
+                    <img
+                      src={item.thumbnail || "/placeholder.svg"}
+                      alt="Video thumbnail"
+                      className="w-20 h-12 object-cover rounded"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-gray-900 truncate">{item.title}</h4>
+                      <p className="text-sm text-gray-500 truncate">{item.url}</p>
+                      <p className="text-xs text-gray-400">
+                        {new Date(item.date).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          viewHistoryItem(item)
+                        }}
+                      >
+                        View
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          deleteHistoryItem(item.id)
+                        }}
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Loading State */}
         {isLoading && (
           <Card>
@@ -296,6 +518,7 @@ console.log(data);
                   <h3 className="text-lg font-semibold">Processing your video...</h3>
                   <p className="text-gray-600">
                     Our AI is analyzing the content and generating comprehensive summaries
+                    {extractCode && " with code extraction"}
                   </p>
                 </div>
               </div>
@@ -343,8 +566,9 @@ console.log(data);
                 </CardContent>
               </Card>
             )}
-  {/* Extracted Code Section */}
- {summaryData.extractedCode && (
+
+            {/* Extracted Code Section */}
+            {summaryData.extractedCode && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -361,7 +585,7 @@ console.log(data);
                           <h4 className="font-semibold text-gray-900">{codeBlock.title}</h4>
                           <p className="text-sm text-gray-600">{codeBlock.description}</p>
                         </div>
-  <Button
+                        <Button
                           variant="outline"
                           size="sm"
                           onClick={() => copyToClipboard(codeBlock.code, codeBlock.title)}
@@ -379,7 +603,7 @@ console.log(data);
                             </>
                           )}
                         </Button>
-             </div>
+                      </div>
                       <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
                         <pre className="text-sm text-gray-100">
                           <code>{codeBlock.code}</code>
