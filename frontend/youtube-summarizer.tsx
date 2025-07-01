@@ -7,12 +7,44 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Loader2, Youtube, Eye, Globe, FileText, List, Hash, Sparkles } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+
+  UserIcon,
+  LogOut,
+  Settings,
+  Code,
+  Copy,
+  Check,
+} from "lucide-react"
+
 
 interface SummaryData {
   globalUnderstanding: string
   detailedUnderstanding: string
   stepByStepBreakdown: string[]
   entitiesAndKeywords: string[]
+   extractedCode?: CodeBlock[]
+}
+interface CodeBlock {
+  language: string
+  title: string
+  code: string
+  description: string
+}
+interface VideoHistory {
+  id: string
+  title: string
+  url: string
+  thumbnail: string
+  date: string
+  summary: SummaryData
 }
 
 export default function Component() {
@@ -22,6 +54,8 @@ export default function Component() {
   const [summaryData, setSummaryData] = useState<SummaryData | null>(null)
   const [showVisualSummary, setShowVisualSummary] = useState(false)
   const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null)
+   const [copiedCode, setCopiedCode] = useState<string | null>(null)
+  const [videoHistory, setVideoHistory] = useState<VideoHistory[]>([])
   const [keywordDefinitions] = useState<Record<string, string>>({
     React:
       "A JavaScript library for building user interfaces, particularly web applications, using a component-based architecture.",
@@ -55,6 +89,16 @@ export default function Component() {
       "An organized collection of structured information or data, typically stored electronically in a computer system.",
     Deployment: "The process of making a software application available for use in a production environment.",
   })
+
+  const copyToClipboard = async (code: string, title: string) => {
+    try {
+      await navigator.clipboard.writeText(code)
+      setCopiedCode(title)
+      setTimeout(() => setCopiedCode(null), 2000)
+    } catch (err) {
+      console.error("Failed to copy code:", err)
+    }
+  }
 
 const handleSummarize = async () => {
   if (!videoUrl.trim()) return;
@@ -227,6 +271,53 @@ console.log(data);
                       </p>
                     </div>
                   </div>
+                </CardContent>
+              </Card>
+            )}
+  {/* Extracted Code Section */}
+ {summaryData.extractedCode && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Code className="h-5 w-5 text-green-500" />
+                    Extracted Code
+                  </CardTitle>
+                  <CardDescription>Code snippets and examples from the video</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {summaryData.extractedCode.map((codeBlock, index) => (
+                    <div key={index} className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h4 className="font-semibold text-gray-900">{codeBlock.title}</h4>
+                          <p className="text-sm text-gray-600">{codeBlock.description}</p>
+                        </div>
+  <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => copyToClipboard(codeBlock.code, codeBlock.title)}
+                          className="flex items-center gap-2"
+                        >
+                          {copiedCode === codeBlock.title ? (
+                            <>
+                              <Check className="h-4 w-4" />
+                              Copied
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="h-4 w-4" />
+                              Copy
+                            </>
+                          )}
+                        </Button>
+             </div>
+                      <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                        <pre className="text-sm text-gray-100">
+                          <code>{codeBlock.code}</code>
+                        </pre>
+                      </div>
+                    </div>
+                  ))}
                 </CardContent>
               </Card>
             )}
