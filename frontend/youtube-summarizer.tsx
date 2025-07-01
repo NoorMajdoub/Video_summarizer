@@ -46,6 +46,11 @@ interface VideoHistory {
   date: string
   summary: SummaryData
 }
+interface UserData {
+  name: string
+  email: string
+  avatar?: string
+}
 
 export default function Component() {
   const [videoUrl, setVideoUrl] = useState("")
@@ -54,6 +59,12 @@ export default function Component() {
   const [summaryData, setSummaryData] = useState<SummaryData | null>(null)
   const [showVisualSummary, setShowVisualSummary] = useState(false)
   const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null)
+    const [extractCode, setExtractCode] = useState(false)
+
+  const [user, setUser] = useState<UserData | null>(null)
+  const [showLogin, setShowLogin] = useState(false)
+  const [loginForm, setLoginForm] = useState({ email: "", password: "" })
+
    const [copiedCode, setCopiedCode] = useState<string | null>(null)
   const [videoHistory, setVideoHistory] = useState<VideoHistory[]>([])
   const [keywordDefinitions] = useState<Record<string, string>>({
@@ -89,7 +100,25 @@ export default function Component() {
       "An organized collection of structured information or data, typically stored electronically in a computer system.",
     Deployment: "The process of making a software application available for use in a production environment.",
   })
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Simulate login
+    setUser({
+      name: "John Doe",
+      email: loginForm.email,
+      avatar: "/placeholder.svg?height=32&width=32",
+    })
+    setShowLogin(false)
+    setLoginForm({ email: "", password: "" })
+  }
 
+  const handleLogout = () => {
+    setUser(null)
+    setSummaryData(null)
+    setVideoUrl("")
+    setAdditionalContext("")
+    setExtractCode(false)
+  }
   const copyToClipboard = async (code: string, title: string) => {
     try {
       await navigator.clipboard.writeText(code)
