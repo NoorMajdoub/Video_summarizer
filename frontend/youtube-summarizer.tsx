@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Loader2, Youtube, Eye, Globe, FileText, List, Hash, Sparkles } from "lucide-react"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -133,7 +134,7 @@ const handleSummarize = async () => {
   if (!videoUrl.trim()) return;
 
   setIsLoading(true);
-
+console.log("hi")
   try {
    const response = await fetch("http://localhost:8000/summarize", {
   method: "POST",
@@ -145,6 +146,25 @@ const handleSummarize = async () => {
   })
 });
 const data = await response.json();
+console.log("data")
+console.log(data)
+     if (extractCode) {
+        setSummaryData({
+         globalUnderstanding:data['goal'],
+        detailedUnderstanding: data['global_understanding'],
+        stepByStepBreakdown:data["steps"],
+        entitiesAndKeywords:["data['Entities']","just","workd"],
+          extractedCode: [
+            {
+              language: "javascript",
+              title: "React Component Setup",
+              code: `import React, { useState } from 'react'`,
+              description: "Basic React login form component with state management using hooks",
+            }
+          ],
+        })
+      } else {
+
 setSummaryData({
         globalUnderstanding:data['goal'],
         detailedUnderstanding: data['global_understanding'],
@@ -153,6 +173,7 @@ setSummaryData({
           })
 
 console.log(data);
+ }
   } catch (error) {
     console.error("Error summarizing video:", error);
     // Optionally handle error UI
@@ -221,7 +242,20 @@ console.log(data);
                 rows={3}
               />
             </div>
-
+      <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="extract-code"
+                  checked={extractCode}
+                  onCheckedChange={(checked) => setExtractCode(checked as boolean)}
+                  disabled={isLoading}
+                />
+                <label
+                  htmlFor="extract-code"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Extract code snippets from video {user ? "" : "(Login required)"}
+                </label>
+              </div>
             <div className="flex gap-2">
               <Button onClick={handleSummarize} disabled={!videoUrl.trim() || isLoading} className="flex-1">
                 {isLoading ? (
