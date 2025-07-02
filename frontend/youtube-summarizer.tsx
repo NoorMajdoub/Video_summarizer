@@ -179,13 +179,13 @@ console.log("hi")
 });
 const data = await response.json();
 console.log("data")
-console.log(data)
+console.log(data['entities'])
      if (extractCode) {
         setSummaryData({
          globalUnderstanding:data['goal'],
         detailedUnderstanding: data['global_understanding'],
         stepByStepBreakdown:data["steps"],
-        entitiesAndKeywords:["data['Entities']","just","workd"],
+        entitiesAndKeywords:data['entities'],
           extractedCode: [
             {
               language: "javascript",
