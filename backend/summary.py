@@ -35,9 +35,7 @@ def get_prompttext(text):
           - Organize them into the following categories:
             - People : list them and present the role of each 
             - Tools / Libraries / Technologies : list them and present what we used them for
-            - Actions / Tasks
-            - Output / Results
-          - Present them as bullet points under each category."""
+          - Present them as bullet points starting with -- for each entity."""
         res=prompt_text.format(text=text)
         
         return res

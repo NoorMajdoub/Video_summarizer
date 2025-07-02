@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -108,39 +108,7 @@ export default function Component() {
   ])
   const [selectedHistoryItem, setSelectedHistoryItem] = useState<VideoHistory | null>(null)
 
-  const [keywordDefinitions] = useState<Record<string, string>>({
-    React:
-      "A JavaScript library for building user interfaces, particularly web applications, using a component-based architecture.",
-    "Next.js":
-      "A React framework that provides features like server-side rendering, static site generation, and API routes for building full-stack web applications.",
-    JavaScript:
-      "A high-level, interpreted programming language that is one of the core technologies of the World Wide Web, alongside HTML and CSS.",
-    TypeScript:
-      "A strongly typed programming language that builds on JavaScript by adding static type definitions, developed by Microsoft.",
-    "Tailwind CSS":
-      "A utility-first CSS framework that provides low-level utility classes to build custom designs without writing custom CSS.",
-    "NextAuth.js":
-      "A complete open-source authentication solution for Next.js applications, supporting multiple providers and authentication methods.",
-    Prisma:
-      "A next-generation ORM (Object-Relational Mapping) tool that provides type-safe database access and automatic migrations.",
-    PostgreSQL:
-      "A powerful, open-source object-relational database system known for its reliability, feature robustness, and performance.",
-    Vercel:
-      "A cloud platform for static sites and serverless functions that provides deployment and hosting services, particularly optimized for Next.js.",
-    "API Routes":
-      "Server-side functions in Next.js that allow you to build API endpoints within your Next.js application.",
-    "Server-side Rendering":
-      "A technique where web pages are rendered on the server before being sent to the client, improving initial load times and SEO.",
-    "Static Site Generation":
-      "A method of pre-building web pages at build time, resulting in fast-loading static HTML files.",
-    Hooks: "Functions in React that let you use state and other React features in functional components.",
-    "Component Architecture":
-      "A design pattern that breaks down the user interface into reusable, independent components.",
-    Authentication: "The process of verifying the identity of users before granting access to protected resources.",
-    Database:
-      "An organized collection of structured information or data, typically stored electronically in a computer system.",
-    Deployment: "The process of making a software application available for use in a production environment.",
-  })
+const [keywordDefinitions, setKeywordDefinitions] = useState<Record<string, string>>({});
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
@@ -179,7 +147,7 @@ console.log("hi")
 });
 const data = await response.json();
 console.log("data")
-console.log(data['entities'])
+
      if (extractCode) {
         setSummaryData({
          globalUnderstanding:data['goal'],
@@ -194,6 +162,7 @@ console.log(data['entities'])
               description: "Basic React login form component with state management using hooks",
             }
           ],
+       
         })
       } else {
 
@@ -201,9 +170,14 @@ setSummaryData({
         globalUnderstanding:data['goal'],
         detailedUnderstanding: data['global_understanding'],
         stepByStepBreakdown:data["steps"],
-        entitiesAndKeywords:["data['Entities']","just","workd"]
+        entitiesAndKeywords:data.entities.map(([key, value]: [string, string]) => [key.trim()])
           })
-
+if (data?.entities) {
+    const entries = Object.fromEntries(
+      data.entities.map(([key, value]: [string, string]) => [key.trim(), value.trim()])
+    );
+    setKeywordDefinitions(entries);
+  }
 console.log(data);
  }
   } catch (error) {
@@ -213,6 +187,8 @@ console.log(data);
     setIsLoading(false);
   }
 }
+
+  
 
 
   const handleReset = () => {

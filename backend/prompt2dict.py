@@ -13,12 +13,12 @@ def get_structures(prompt):
     text=prompt.replace("text","video")
     print(prompt)
     summary_dict={}
-    sections=text.split("Goal:")
-    sections=sections[1].split("Global Understanding:")
+    sections=text.split("Goal")
+    sections=sections[1].split("Global Understanding")
     summary_dict["goal"]=sections[0]
-    sections=sections[1].split("Steps:")
+    sections=sections[1].split("Steps")
     summary_dict["global_understanding"]=sections[0]
-    sections=sections[1].split("Entity Extraction:")
+    sections=sections[1].split("Entity Extraction")
     summary_dict["steps"]=sections[0]
     summary_dict["entities"]=sections[1]
     return summary_dict
@@ -32,12 +32,15 @@ def get_steps(steps):
          
 
 def get_entities(entities):
-    splitted=entities.split("*")
+    splitted=entities.split("--")
     splitted=[x for x in splitted if x.strip()!=""]
-    splitted=[x.split(":") for x in splitted]
-    
-    return splitted
-
+    splitted=[x.replace("*", "").replace(",", "").replace("\n", "") for x in splitted]
+   # print(splitted)
+    spilltedkey=[]
+    for t in splitted:
+            if t.split(":")[1] is not None:
+                spilltedkey.append([t.split(":")[0],t.split(":")[1]])
+    return spilltedkey
 
 def prompt_2_json(prompt):
     """
