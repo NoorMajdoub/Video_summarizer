@@ -11,7 +11,7 @@ def get_structures(prompt):
     
     """
     text=prompt.replace("text","video")
-    print(prompt)
+  
     summary_dict={}
     sections=text.split("Goal")
     sections=sections[1].split("Global Understanding")
