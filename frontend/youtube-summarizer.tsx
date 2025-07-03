@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import GComponent from "./graph-structure"
 
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
