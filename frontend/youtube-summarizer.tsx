@@ -530,7 +530,7 @@ console.log(data);
                     Visual Summary
                   </CardTitle>
                 </CardHeader>
-               <GComponent/>
+               <GComponent  data={visdata}/>
               </Card>
             )}
 

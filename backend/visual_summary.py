@@ -38,6 +38,8 @@ def get_graph(text):
     temp=temp.split("*")
     temp=[[t.split("—")[0],t.split("—")[1],t.split("—")[2]] for t in temp if t.strip()!="" and len(t.split("—"))==3]
     
+    if len(temp)>4:
+            return temp[:4]
     return temp
 async def get_visual_summary(vid_url,vid_input=None):
 
