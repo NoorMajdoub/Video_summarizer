@@ -25,7 +25,7 @@ def get_prompttext(text):
 
                 2. **Relations**  
                 Identify and describe the relationships between the entities. Present them as triples in the format:  
-                **[Entity 1] —[Relation]→ [Entity 2]**
+                **[Entity 1]—[Relation]—[Entity 2]**
 
                 Ensure the output is clean, easy to read, and grouped under clear section headers.
                 """
@@ -33,7 +33,12 @@ def get_prompttext(text):
                 res=prompt_visual.format(text=text)
         
                 return res
-
+def get_graph(text):
+    temp=text.split("Relations**")[1]
+    temp=temp.split("*")
+    temp=[[t.split("—")[0],t.split("—")[1],t.split("—")[2]] for t in temp if t.strip()!="" and len(t.split("—"))==3]
+    
+    return temp
 async def get_visual_summary(vid_url,vid_input=None):
 
     model = genai.GenerativeModel(MODEL_NAME)

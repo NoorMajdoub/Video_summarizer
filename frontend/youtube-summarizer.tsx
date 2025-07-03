@@ -77,6 +77,11 @@ export default function Component() {
   const [showLogin, setShowLogin] = useState(false)
   const [loginForm, setLoginForm] = useState({ email: "", password: "" })
   const [copiedCode, setCopiedCode] = useState<string | null>(null)
+
+  //the visual
+  type Triple = [string, string, string];
+  const [visdata, setvisData] = useState<Triple[]>();
+
   const [videoHistory, setVideoHistory] = useState<VideoHistory[]>([
     // Mock data for demonstration
     {
@@ -147,14 +152,16 @@ console.log("hi")
   })
 });
 const data = await response.json();
-console.log("data")
-
+console.log("dataaaa3")
+console.log(data["visual"])
+setvisData(data["visual"])
      if (extractCode) {
         setSummaryData({
          globalUnderstanding:data['goal'],
         detailedUnderstanding: data['global_understanding'],
         stepByStepBreakdown:data["steps"],
         entitiesAndKeywords:data['entities'],
+    
           extractedCode: [
             {
               language: "javascript",
@@ -523,24 +530,7 @@ console.log(data);
                     Visual Summary
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="bg-gray-50 rounded-lg p-8 text-center">
-                    <div className="space-y-4">
-                      <div className="text-4xl">🎥</div>
-                      <div className="text-lg font-semibold">Video Content Flow</div>
-                      <div className="flex items-center justify-center gap-4 text-sm">
-                        <div className="bg-blue-100 px-3 py-1 rounded">Setup</div>
-                        <div>→</div>
-                        <div className="bg-green-100 px-3 py-1 rounded">Implementation</div>
-                        <div>→</div>
-                        <div className="bg-purple-100 px-3 py-1 rounded">Deployment</div>
-                      </div>
-                      <p className="text-gray-600 text-sm">
-                        Interactive visual diagrams and flowcharts would be generated here
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
+               <GComponent/>
               </Card>
             )}
 

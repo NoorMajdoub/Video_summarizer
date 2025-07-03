@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from visual_summary import get_visual_summary
+from visual_summary import get_graph, get_visual_summary
 from summary import get_textual_summary
 from audio_processing import get_transcript
 from dotenv import load_dotenv
@@ -37,9 +37,10 @@ class VideoRequest(BaseModel):
 async def get_text_summary(data: VideoRequest):
     result = await get_textual_summary(data.vid_url)
     res2=await get_visual_summary(data.vid_url)
-    print(res2)
+    res2=get_graph(res2)
     res=prompt_2_json(result)
     #result="why god"
+    res["visual"]=res2
     return res
 
 if __name__ == "__main__":
