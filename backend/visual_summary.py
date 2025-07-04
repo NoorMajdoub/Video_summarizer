@@ -34,7 +34,7 @@ def get_prompttext(text):
         
                 return res
 def get_graph(text):
-    temp=text.split("Relations**")[1]
+    temp=text.split("Relations")[1]
     temp=temp.split("*")
     temp=[[t.split("—")[0],t.split("—")[1],t.split("—")[2]] for t in temp if t.strip()!="" and len(t.split("—"))==3]
     

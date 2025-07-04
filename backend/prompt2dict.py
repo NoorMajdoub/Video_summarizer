@@ -15,9 +15,9 @@ def get_structures(prompt):
     summary_dict={}
     sections=text.split("Goal")
     sections=sections[1].split("Global Understanding")
-    summary_dict["goal"]=sections[0]
+    summary_dict["goal"]=sections[0][2:-2]
     sections=sections[1].split("Steps")
-    summary_dict["global_understanding"]=sections[0]
+    summary_dict["global_understanding"]=sections[0].replace("*"," ").replace("3","").strip("")
     sections=sections[1].split("Entity Extraction")
     summary_dict["steps"]=sections[0]
     summary_dict["entities"]=sections[1]
@@ -25,10 +25,10 @@ def get_structures(prompt):
         
 
 def get_steps(steps):
-     splited=steps.split("**")
+     splited=steps.split("-")
      if len(splited)<2:
       return ["This video contain no clear steps"]
-     return splited[1:]
+     return [s.replace("*"," ").strip("") for s in splited]
          
 
 def get_entities(entities):

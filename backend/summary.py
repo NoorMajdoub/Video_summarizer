@@ -28,7 +28,7 @@ def get_prompttext(text):
 
         2. **Global Understanding**: Summarize the high-level idea of what is being explained or taught, in 2-4 sentences.
 
-        3. **Steps (if any)**: If the text contains steps, procedures, or sequential logic, list them clearly in order. Use bullet points.
+        3. **Steps (if any)**: If the text contains steps, procedures, or sequential logic, list them clearly in order. Use bullet points and seperate them with - for each step.
 
         4. **Entity Extraction**:
           - Identify all unique entities or concepts mentioned in the text.
