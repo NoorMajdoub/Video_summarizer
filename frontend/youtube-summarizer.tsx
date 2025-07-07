@@ -115,6 +115,10 @@ export default function Component() {
   const [selectedHistoryItem, setSelectedHistoryItem] = useState<VideoHistory | null>(null)
 
 const [keywordDefinitions, setKeywordDefinitions] = useState<Record<string, string>>({});
+const getcode = () => {
+  console.log("Button clicked!");
+  // Add your code logic here
+};
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
@@ -391,7 +395,13 @@ console.log(data);
                   htmlFor="extract-code"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  Extract code snippets from video {user ? "" : "(Login required)"}
+                      <Button
+          
+            onClick={getcode}
+            className="flex-1"
+          >
+            Getcode
+            </Button>
                 </label>
               </div>
 
