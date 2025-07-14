@@ -4,7 +4,17 @@ import cv2
 import cv2
 import numpy as np
 import os
-from google import genai
+from dotenv import load_dotenv
+import os
+
+import google.generativeai as genai
+import asyncio
+load_dotenv() 
+
+api_key = os.getenv("GOOGLE_API_KEY")
+MODEL_NAME= os.getenv("MODEL_NAME")
+
+genai.configure(api_key=api_key)
 #function to locally download the video
 def download_vid(name, url):
     ydl_opts = {
@@ -93,17 +103,20 @@ def getfull_text(frame_dir):
     return full_txt
 
 
-def correctwithllm(instruction):
-
-            client = genai.Client(api_key=API_KEY)
-    
-            instruction=getfull_text("./")
-            response = client.models.generate_content(
-                model="gemini-2.0-flash", contents=f"this text is extracted from screenshots of code , can you write the code section correctly and ignore what is not code:this is the code {instruction}"
-            )
-            return response.text
 
 
+
+async def correctwithllm():
+
+    model = genai.GenerativeModel(MODEL_NAME)
+    chat = model.start_chat()
+    instruction=getfull_text("./")
+    prompt=f"this text is extracted from screenshots of code , can you write the code section correctly and ignore what is not code:this is the code {instruction}"
+    response = await chat.send_message_async(prompt)
+    result = response.text
+
+  
+    return result
 
 
 
