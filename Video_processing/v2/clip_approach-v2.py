@@ -13,6 +13,9 @@ import asyncio
 from transformers import CLIPProcessor, CLIPModel
 from PIL import Image
 import torch
+import glob
+import os
+
 load_dotenv() 
 
 api_key = os.getenv("GOOGLE_API_KEY")
@@ -96,29 +99,28 @@ def iscodeframe(path):
         else:
             print("nocode",similarity.max().item())
             return False
-#get the frames of code 
-#oh god 
-import glob
-import os
+        
+        #get the frames of code 
+def getcodetimestamps():
 
-code=[]
-output_dir = '/kaggle/working/'
-pattern = os.path.join(output_dir, 'd*')  # all files starting with d
+        code=[]
+        output_dir = '/kaggle/working/'
+        pattern = os.path.join(output_dir, 'd*')  # all files starting with d
 
-reader = easyocr.Reader(['en'])
+        reader = easyocr.Reader(['en'])
 
 
-# Get all files starting with d*
-files = glob.glob(pattern)
+        # Get all files starting with d*
+        files = glob.glob(pattern)
 
-for image_path in files:
-    # Check if it is an image file by extension
-    if image_path.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.tiff')):
-        print(f"Processing frame {image_path}")
-        output=iscodeframe(image_path)
-        if output:
-            code.append(image_path)
-        print(output)
+        for image_path in files:
+            # Check if it is an image file by extension
+            if image_path.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.tiff')):
+                print(f"Processing frame {image_path}")
+                output=iscodeframe(image_path)
+                if output:
+                    code.append(image_path)
+                print(output)
         
       
 def get_code_intervals(timestamps,code):
