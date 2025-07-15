@@ -105,22 +105,21 @@ def getcodetimestamps():
 
         code=[]
         output_dir = '/kaggle/working/'
-        pattern = os.path.join(output_dir, 'd*')  # all files starting with d
+        pattern = os.path.join(output_dir, 'd*')  
 
         reader = easyocr.Reader(['en'])
 
 
-        # Get all files starting with d*
         files = glob.glob(pattern)
 
         for image_path in files:
-            # Check if it is an image file by extension
             if image_path.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.tiff')):
                 print(f"Processing frame {image_path}")
                 output=iscodeframe(image_path)
                 if output:
                     code.append(image_path)
                 print(output)
+                return code
         
       
 def get_code_intervals(timestamps,code):
@@ -161,13 +160,13 @@ def re_get_frames(intervals):
             capture.release()
 
 
-# Initialize the reader with English language
-reader = easyocr.Reader(['en'])
+
 
 
 # Perform OCR
 
 def easy_ocr(image):
+  reader = easyocr.Reader(['en'])
   data=""
   image = cv2.imread(image)
   try:
@@ -179,22 +178,22 @@ def easy_ocr(image):
    return data
 
 #now that we got alll the section that have code lets get the stupid code 
-code=""
-output_dir = '/kaggle/working/'
-pattern = os.path.join(output_dir, 'code*')  # all files starting with d
+def getstupidcode():
+        code=""
+        output_dir = '/kaggle/working/'
+        pattern = os.path.join(output_dir, 'code*')  # all files starting with d
 
-reader = easyocr.Reader(['en'])
+        reader = easyocr.Reader(['en'])
 
 
-# Get all files starting with d*
-files = glob.glob(pattern)
+        files = glob.glob(pattern)
 
-for image_path in files:
-    # Check if it is an image file by extension
-    if image_path.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.tiff')):
-        print(f"Processing frame {image_path}")
-        code+=easy_ocr(image_path)
-   
+        for image_path in files:
+            if image_path.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.tiff')):
+                print(f"Processing frame {image_path}")
+                code+=easy_ocr(image_path)
+        return code
+        
 if __name__=="__main__":
      model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
      processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
