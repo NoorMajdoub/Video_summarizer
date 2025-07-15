@@ -82,14 +82,11 @@ def iscodeframe(path):
         image = Image.open(path).convert("RGB")
         text_prompts = ["a screenshot of code", "a code editor", "a terminal with code","code"] #added code
         
-        # Process inputs
         inputs = processor(text=text_prompts, images=image, return_tensors="pt", padding=True)
         
-        # Forward pass
         with torch.no_grad():
             outputs = model(**inputs)
         
-        # Get embeddings
         image_embeds = outputs.image_embeds  # shape: [1, 512]
         text_embeds = outputs.text_embeds    # shape: [3, 512]
         similarity = (image_embeds @ text_embeds.T).squeeze()
@@ -107,7 +104,6 @@ def getcodetimestamps():
         output_dir = '/kaggle/working/'
         pattern = os.path.join(output_dir, 'd*')  
 
-        reader = easyocr.Reader(['en'])
 
 
         files = glob.glob(pattern)
@@ -132,6 +128,8 @@ def get_code_intervals(timestamps,code):
                     print("bingo")
                     intervals.append((timestamps[i][1], timestamps[i + 1][0]))
     return intervals
+
+
 def re_get_frames(intervals):
             video_path = "/kaggle/working/downloaded_videodes.mp4"  
             capture = cv2.VideoCapture(video_path)
@@ -163,7 +161,7 @@ def re_get_frames(intervals):
 
 
 
-# Perform OCR
+# main OCR function
 
 def easy_ocr(image):
   reader = easyocr.Reader(['en'])
@@ -183,7 +181,6 @@ def getstupidcode():
         output_dir = '/kaggle/working/'
         pattern = os.path.join(output_dir, 'code*')  # all files starting with d
 
-        reader = easyocr.Reader(['en'])
 
 
         files = glob.glob(pattern)
