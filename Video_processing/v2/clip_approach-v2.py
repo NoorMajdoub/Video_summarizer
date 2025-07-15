@@ -6,9 +6,13 @@ import numpy as np
 import os
 from dotenv import load_dotenv
 import os
-
+import easyocr
+import cv2
 import google.generativeai as genai
 import asyncio
+from transformers import CLIPProcessor, CLIPModel
+from PIL import Image
+import torch
 load_dotenv() 
 
 api_key = os.getenv("GOOGLE_API_KEY")
@@ -67,13 +71,8 @@ def get_frames(video_path):
 
 
         capture.release()
-from transformers import CLIPProcessor, CLIPModel
-from PIL import Image
-import torch
 
-# Load model and processor
-model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
-processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+
 
 # Inputs
 def iscodeframe(path):
@@ -158,8 +157,7 @@ def re_get_frames(intervals):
                     
                     
             capture.release()
-import easyocr
-import cv2
+
 
 # Initialize the reader with English language
 reader = easyocr.Reader(['en'])
@@ -195,3 +193,8 @@ for image_path in files:
         print(f"Processing frame {image_path}")
         code+=easy_ocr(image_path)
    
+if __name__=="__main__":
+     model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
+     processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+
+     
