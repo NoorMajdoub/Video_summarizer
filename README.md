@@ -5,7 +5,7 @@ An AI-powered system that analyzes and summarizes educational YouTube videos, co
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 ├── Video_processing/
