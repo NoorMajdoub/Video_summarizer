@@ -101,9 +101,6 @@ cd frontend
 npm start
 ```
 
-Open your browser and navigate to `http://localhost:3000`. Input any YouTube URL to begin summarization.
-
----
 
 ## 🧩 Core Modules
 
@@ -120,7 +117,7 @@ Open your browser and navigate to `http://localhost:3000`. Input any YouTube URL
 Testing resources and examples:
 
 * **`notebooks_testing/`** – Jupyter notebooks for iterative testing and dev
-* **`video_summary_testing/`** – Additional validation/test materials
+* **`video_summary_testing/`** – Additional validation/test materials/old methodes that did not work
 
 ---
 
@@ -129,6 +126,7 @@ Testing resources and examples:
 * The `Video_processing/` directory contains versioned pipelines (v1, v2)
 * Visual analysis is experimental and GPU-intensive
 * Optimized for **educational content**, especially **programming tutorials**
+*I would recommend running the video summary section directly from the kaggle notebook
 
 ---
 
