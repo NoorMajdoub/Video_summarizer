@@ -27,7 +27,6 @@ An AI-powered system that analyzes and summarizes educational YouTube videos, co
 ├── notebooks_testing/          # Jupyter notebooks for testing
 └── video_summary_testing/      # Testing materials
 ```
-
 ---
 
 ## ✨ Features
