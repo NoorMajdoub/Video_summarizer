@@ -148,7 +148,4 @@ Testing resources and examples:
 
 Pull requests and feature ideas are welcome! If you encounter any bugs or have suggestions, feel free to open an issue.
 
----
-
-Let me know if you'd like me to include badges, a license section, screenshots, or deployment instructions as well!
 
