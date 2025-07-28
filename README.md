@@ -1,5 +1,5 @@
 
-# 🎓 AI-Powered YouTube Video Summarizer for Educational Content
+#  AI-Powered YouTube Video Summarizer for Educational Content
 
 An AI-powered system that analyzes and summarizes educational YouTube videos, combining text-based analysis with experimental visual content processing to enhance learning and information retrieval.
 
