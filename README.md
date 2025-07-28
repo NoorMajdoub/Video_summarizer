@@ -1,1 +1,157 @@
+Sure! Here's a clean, well-formatted, and ready-to-copy `README.md` for your **AI-Powered YouTube Video Summarizer for Educational Content** project:
+
+---
+
+# 🎓 AI-Powered YouTube Video Summarizer for Educational Content
+
+An AI-powered system that analyzes and summarizes educational YouTube videos, combining text-based analysis with experimental visual content processing to enhance learning and information retrieval.
+
+---
+
+## 📁 Project Structure
+
+```
+├── Video_processing/
+│   ├── tools/                  # Utility tools and scripts
+│   ├── v1/                     # Version 1 implementation
+│   └── v2/                     # Version 2 implementation
+├── backend/
+│   ├── __pycache__/            # Python cache files
+│   ├── tools_not_used/         # Deprecated tools
+│   ├── .env                    # Environment variables
+│   ├── audio_processing.py     # YouTube transcript extraction
+│   ├── main.py                 # FastAPI main application
+│   ├── prompt2dict.py          # Summary processing utilities
+│   ├── proxy.py                # Proxy configuration
+│   ├── requirements.txt        # Python dependencies
+│   ├── summary.py              # Text summarization logic
+│   └── visual_summary.py       # Visual analysis module
+├── frontend/                   # React-based user interface
+├── notebooks_testing/          # Jupyter notebooks for testing
+└── video_summary_testing/      # Testing materials
+```
+
+---
+
+## ✨ Features
+
+* **Multi-Level Summarization**: High-level and detailed AI-generated summaries.
+* **Step Extraction**: Identifies and extracts step-by-step instructions from educational content.
+* **Entity Recognition**: Automatically identifies and defines technical terms and concepts.
+* **Knowledge Graph Visualization**: Interactive concept relationship maps.
+* **Visual Analysis (Experimental)**: Extracts code snippets from programming tutorials using CLIP + OCR.
+
+---
+
+## ⚙️ Technology Stack
+
+### 🔧 Backend
+
+* **FastAPI** – Web framework for APIs
+* **Python 3.x** – Core programming language
+* **YouTube Transcript API** – For extracting transcripts
+* **Gemini API** – AI-powered summarization
+* **CLIP + OCR** – Experimental visual content analysis
+
+### 💻 Frontend
+
+* **React** – UI framework
+* **TypeScript** – Type safety
+* **Tailwind CSS** – Styling
+
+---
+
+## 🚀 Setup and Installation
+
+### Backend Setup
+
+```bash
+cd backend
+pip install -r requirements.txt
+```
+
+### Environment Configuration
+
+Create a `.env` file in the `backend/` directory with the following:
+
+```
+GEMINI_API_KEY=your_gemini_api_key
+YOUTUBE_API_KEY=your_youtube_api_key
+```
+
+### Frontend Setup
+
+```bash
+cd frontend
+npm install
+```
+
+---
+
+## 🧪 Usage
+
+### Start the Backend Server
+
+```bash
+cd backend
+python main.py
+```
+
+### Start the Frontend Application
+
+```bash
+cd frontend
+npm start
+```
+
+Open your browser and navigate to `http://localhost:3000`. Input any YouTube URL to begin summarization.
+
+---
+
+## 🧩 Core Modules
+
+* **audio\_processing.py** – YouTube transcript extraction
+* **summary.py** – AI-based text summarization
+* **visual\_summary.py** – Visual content and code extraction (experimental)
+* **prompt2dict.py** – Structures and processes summaries
+* **main.py** – FastAPI app entry point
+
+---
+
+## 🧪 Testing
+
+Testing resources and examples:
+
+* **`notebooks_testing/`** – Jupyter notebooks for iterative testing and dev
+* **`video_summary_testing/`** – Additional validation/test materials
+
+---
+
+## 🛠 Development Notes
+
+* The `Video_processing/` directory contains versioned pipelines (v1, v2)
+* Visual analysis is experimental and GPU-intensive
+* Optimized for **educational content**, especially **programming tutorials**
+
+---
+
+## 📋 Requirements
+
+* Python 3.x
+* Node.js and npm
+* GPU (recommended for visual analysis)
+* API access to:
+
+  * Google Gemini
+  * YouTube Data API
+
+---
+
+## 📬 Contribution & Feedback
+
+Pull requests and feature ideas are welcome! If you encounter any bugs or have suggestions, feel free to open an issue.
+
+---
+
+Let me know if you'd like me to include badges, a license section, screenshots, or deployment instructions as well!
 
