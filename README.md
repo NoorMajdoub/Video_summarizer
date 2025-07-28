@@ -1,6 +1,3 @@
-Sure! Here's a clean, well-formatted, and ready-to-copy `README.md` for your **AI-Powered YouTube Video Summarizer for Educational Content** project:
-
----
 
 # 🎓 AI-Powered YouTube Video Summarizer for Educational Content
 
