@@ -5,7 +5,7 @@
 
 The aim of this project is to **automatically detect, extract, and analyze frames from a video that contain programming code**, specifically when code is displayed in an editor or terminal. This can be useful in:
 
-* **Educational videos** (e.g., tutorials or lectures)
+* **Educational videos** (works well with tutorials)
 * **Software walkthroughs**
 * **Livestreams or recorded screencasts**
 * **Creating summaries or highlights** of code-related content
