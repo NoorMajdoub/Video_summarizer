@@ -24,7 +24,7 @@ Added a features for video analysis (the visual aspect of the video not just the
 │   ├── audio_processing.py     # YouTube transcript extraction
 │   ├── main.py                 # FastAPI main application
 │   ├── prompt2dict.py          # Summary processing utilities
-│   ├── proxy.py                # Proxy configuration
+│   ├── proxy.py                # Proxy configuration (needed for youtube dlp)
 │   ├── requirements.txt        # Python dependencies
 │   ├── summary.py              # Text summarization logic
 │   └── visual_summary.py       # Visual analysis module
