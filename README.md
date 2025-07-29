@@ -16,7 +16,7 @@ Added a features for video analysis (the visual aspect of the video not just the
 ├── Video_processing/
 │   ├── tools/                  # Utility tools and scripts
 │   ├── v1/                     # Version 1 implementation
-│   └── v2/                     # Version 2 implementation
+│   └── v2/                     # Version 2 implementation (CLIP for smarter frames analysis and code extraction)
 ├── backend/
 │   ├── __pycache__/            # Python cache files
 │   ├── tools_not_used/         # Deprecated tools
