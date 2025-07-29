@@ -28,7 +28,7 @@ Using `yt_dlp`, a YouTube video is downloaded locally in `.mp4` format.
 
   * Use the best video+audio format
   * Avoid adaptive streaming (DASH/HLS)
-  * Include custom headers and a cookie file if needed
+  * Include custom headers and a cookie file if needed (but i am not using that here)
 
 📄 *Function: `download_vid(name, url)`*
 
