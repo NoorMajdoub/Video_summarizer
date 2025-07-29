@@ -26,7 +26,7 @@ Added a features for video analysis (the visual aspect of the video not just the
 │   ├── prompt2dict.py          # Summary processing utilities
 │   ├── proxy.py                # Proxy configuration (needed for youtube dlp)
 │   ├── requirements.txt        # Python dependencies
-│   ├── summary.py              # Text summarization logic
+│   ├── summary.py              # Text summarization logic (prompt/api call)
 │   └── visual_summary.py       # Visual analysis module
 ├── frontend/                   # React-based user interface
 ├── notebooks_testing/          # Jupyter notebooks for testing
