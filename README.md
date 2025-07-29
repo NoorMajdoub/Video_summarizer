@@ -148,6 +148,6 @@ Testing resources and examples:
 
 ## 📬 Contribution & Feedback
 
-Pull requests and feature ideas are welcome! If you encounter any bugs or have suggestions, feel free to open an issue.
+Pull requests and feature ideas are welcome! If you encounter any bugs or have suggestions, feel free to open an issue, would love any ideas on how to make this (more ) usable.
 
 
