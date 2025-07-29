@@ -127,7 +127,7 @@ Testing resources and examples:
 
 ## 🛠 Development Notes
 
-* The `Video_processing/` directory contains versioned pipelines (v1 (not so good), v2)
+* The `Video_processing/` directory contains versioned pipelines (v1 (not so good), v2 (good but slow))
 * Visual analysis is experimental and GPU-intensive
 * Optimized for **educational content**, especially **programming tutorials**
 *I would recommend running the video summary section directly from the kaggle notebook
