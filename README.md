@@ -4,6 +4,7 @@
 An AI-powered system that analyzes and summarizes educational YouTube videos, combining text-based analysis with experimental visual content processing to enhance learning and information retrieval.
 
 PS: I wanted to work on something tha goes beyond just using the transcript and sending it to an LLM and just print the summary.explored a bit video summary concept.
+Added a features for video analysis (the visual aspect of the video not just the audio) to create a system able to extract the code from the video.
 
 ---
 
