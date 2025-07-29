@@ -120,7 +120,7 @@ npm start
 
 Testing resources and examples:
 
-* **`notebooks_testing/`** – Jupyter notebooks for iterative testing and dev
+* **`notebooks_testing/`** – Kaggle notebooks for iterative testing and dev
 * **`video_summary_testing/`** – Additional validation/test materials/old methodes that did not work
 
 ---
