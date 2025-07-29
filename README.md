@@ -29,7 +29,7 @@ Added a features for video analysis (the visual aspect of the video not just the
 │   ├── summary.py              # Text summarization logic (prompt/api call)
 │   └── visual_summary.py       # Visual analysis module
 ├── frontend/                   # React-based user interface
-├── notebooks_testing/          # Jupyter notebooks for testing
+├── notebooks_testing/          # Kaggle notebooks for testing
 └── video_summary_testing/      # Testing materials
 ```
 ---
