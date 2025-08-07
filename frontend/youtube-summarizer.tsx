@@ -165,7 +165,7 @@ setvisData(data["visual"])
         detailedUnderstanding: data['global_understanding'],
         stepByStepBreakdown:data["steps"],
         entitiesAndKeywords:data['entities'],
-    
+          // not yet used 
           extractedCode: [
             {
               language: "javascript",
