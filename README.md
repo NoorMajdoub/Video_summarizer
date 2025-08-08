@@ -11,7 +11,6 @@ Added a features for video analysis (the visual aspect of the video not just the
 PS: please check notes.md in v2 folder for the video processing section (which is what is moslty interesting about this proj :3 )
 
 ---
-
 ##  Project Structure
 
 ```
