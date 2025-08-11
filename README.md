@@ -8,7 +8,7 @@ Added a features for video analysis (the visual aspect of the video not just the
 
 (Still in testing but works fine with videos under 20 minutes)=Detect the right frames - video sections with code in it and extract the code with OCR tools.
 
-PS: please check notes.md in v2 folder for the video processing section (which is what is moslty interesting about this proj :3 )
+PS: please check notes.md in v2 folder for the video processing section(which is what is moslty interesting about this proj :3 )
 
 ---
 ##  Project Structure
