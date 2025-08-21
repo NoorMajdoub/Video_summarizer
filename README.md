@@ -10,6 +10,8 @@ Added a features for video analysis (the visual aspect of the video not just the
 
 PS: please check notes.md in v2 folder for the video processing section(which is what is moslty interesting about this proj :3 )
 
+Full project report :https://docs.google.com/document/d/1d08XwuWxRc_0hRS_e6Q-mqldWKdUbsB45R0sisOfNyw/edit?usp=sharing
+
 ---
 ##  Project Structure
 
