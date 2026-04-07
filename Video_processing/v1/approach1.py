@@ -42,16 +42,17 @@ def download_vid(name, url):
 
 
 
-#function to extract frames randomly accordking to the interval we set here the interval is every 50 sec
 
+#function to extract frames randomly accordking to the interval we set here the interval is every 50 sec
 def get_frames(video_path):
+    """
+    the frames are shots/images captured and saved to the output folder
+    """
         capture = cv2.VideoCapture(video_path)
         timestamps=[]
-
         if not capture.isOpened():
             print("Error opening video file.")
             exit()
-
         fps = capture.get(cv2.CAP_PROP_FPS)
         frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
         duration = frame_count / fps
@@ -65,21 +66,18 @@ def get_frames(video_path):
             if not success:
                 print(f"Failed to read frame at {sec} seconds.")
                 continue
-
-
-
         capture.release()
 
 
 
-# Initialize the reader with English language
 
 
-# Perform OCR
 
 def easy_ocr(image):
+    """
+    takes a image and read the english text on it and return the str text
+    """
   reader = easyocr.Reader(['en'])
-
   data=""
   image = cv2.imread(image)
   try:
@@ -92,6 +90,9 @@ def easy_ocr(image):
 
 
 def getfull_text(frame_dir):
+    """
+    loops over the frames generated from the the extract_frames function and concatinvate the text it gets from them
+    """
     full_txt=""
     #get all the text
     for filename in os.listdir(frame_dir):
@@ -99,7 +100,6 @@ def getfull_text(frame_dir):
             image_path = os.path.join(frame_dir, filename)
             print(f"extracting from frame {image_path}")
             full_txt+=easy_ocr(image_path)
-    
     return full_txt
 
 
@@ -107,7 +107,9 @@ def getfull_text(frame_dir):
 
 
 async def correctwithllm():
-
+    """ 
+    sneds the text captured from the images and sends it an gemini to correct/rewrite 
+    """
     model = genai.GenerativeModel(MODEL_NAME)
     chat = model.start_chat()
     instruction=getfull_text("./")
