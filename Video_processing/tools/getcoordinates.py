@@ -1,4 +1,9 @@
 import cv2
+"""
+Code to show coordinates of the mouse on the image , was attentmpt to get the thhe frames having the editor ?
+"""
+
+
 
 # Load your image
 image = cv2.imread('backend/framet__7.jpg')
