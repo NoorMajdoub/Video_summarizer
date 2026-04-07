@@ -52,11 +52,9 @@ def download_vid(name, url):
 def get_frames(video_path):
         capture = cv2.VideoCapture(video_path)
         timestamps=[]
-
         if not capture.isOpened():
             print("Error opening video file.")
             exit()
-
         fps = capture.get(cv2.CAP_PROP_FPS)
         frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
         duration = frame_count / fps
@@ -70,23 +68,20 @@ def get_frames(video_path):
             if not success:
                 print(f"Failed to read frame at {sec} seconds.")
                 continue
-
-
-
         capture.release()
 
 
 
-# Inputs
 def iscodeframe(path):
+        """ 
+        takes an image and runs clip to see if it has code by seeing how close its embedding to the embedding of the text prompts
+        we have a threshold of 0.3 if above that mean it has code we return true
+        """
         image = Image.open(path).convert("RGB")
         text_prompts = ["a screenshot of code", "a code editor", "a terminal with code","code"] #added code
-        
         inputs = processor(text=text_prompts, images=image, return_tensors="pt", padding=True)
-        
         with torch.no_grad():
             outputs = model(**inputs)
-        
         image_embeds = outputs.image_embeds  # shape: [1, 512]
         text_embeds = outputs.text_embeds    # shape: [3, 512]
         similarity = (image_embeds @ text_embeds.T).squeeze()
@@ -97,17 +92,15 @@ def iscodeframe(path):
             print("nocode",similarity.max().item())
             return False
         
-        #get the frames of code 
 def getcodetimestamps():
-
+        """
+        goes over the images saved if an image is true for detect code we save its path in the code array 
+        we returnthe array that has teh paths of the images with code in em
+        """
         code=[]
         output_dir = '/kaggle/working/'
         pattern = os.path.join(output_dir, 'd*')  
-
-
-
         files = glob.glob(pattern)
-
         for image_path in files:
             if image_path.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.tiff')):
                 print(f"Processing frame {image_path}")
@@ -119,6 +112,10 @@ def getcodetimestamps():
         
       
 def get_code_intervals(timestamps,code):
+    """
+    sets the intervals /timestamps of the video === CHANGES OF FRAME  by com
+
+    """
     intervals=[]
     for c in code:
             c=int(c[c.index("d")+1:c.index(".")])
@@ -131,6 +128,7 @@ def get_code_intervals(timestamps,code):
 
 
 def re_get_frames(intervals):
+
             video_path = "/kaggle/working/downloaded_videodes.mp4"  
             capture = cv2.VideoCapture(video_path)
             timestamps=[]
