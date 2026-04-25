@@ -20,7 +20,7 @@ genai.configure(api_key=api_key)
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # or ["*"] for dev
+    allow_origins=["http://localhost:3000","https://videosummarizerfronteend-fp3y4jb7v.vercel.app"],  # or ["*"] for dev
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
