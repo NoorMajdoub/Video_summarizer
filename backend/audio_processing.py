@@ -30,7 +30,8 @@ def get_transcript(url_vid):
     id_vid = get_video_id(url_vid)
     username = os.getenv("WEBSHARE_USERNAME")
     password = os.getenv("WEBSHARE_PASSWORD")
-    proxy_url = f"http://{username}:{password}@p.webshare.io:80"
+    # using a specific free proxy IP from your list
+    proxy_url = f"http://{username}:{password}@198.23.239.134:6540"
     proxy_config = GenericProxyConfig(
         http_url=proxy_url,
         https_url=proxy_url
