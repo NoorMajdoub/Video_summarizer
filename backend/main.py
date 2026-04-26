@@ -37,13 +37,7 @@ def read_root():
 
 @app.post("/summarize")
 async def summarize(data: VideoRequest):
-    """
-    Main endpoint. Accepts a YouTube URL and returns a structured summary
-    including textual summary, parsed sections, and a knowledge graph.
- 
-    - Fetches the transcript once and passes it to both summary functions.
-    - Returns parsed JSON with goal, steps, entities, and visual graph data.
-    """
+
     # Fetch transcript once — reused by both summary and visual
     transcript = get_transcript(data.vid_url)
  
