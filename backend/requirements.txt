@@ -1,5 +1,5 @@
 qwen_vl_utils
-youtube-transcript-api
+youtube-transcript-api>=1.2.4
 google-generativeai
 python-dotenv
 uvicorn
