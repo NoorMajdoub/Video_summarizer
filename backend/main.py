@@ -1,48 +1,64 @@
-from pydantic import BaseModel
-from visual_summary import get_graph, get_visual_summary
-from summary import get_textual_summary
-from audio_processing import get_transcript
-from dotenv import load_dotenv
 import os
-import json
+import uvicorn
 import google.generativeai as genai
-import asyncio
-from prompt2dict import prompt_2_json
-from fastapi import FastAPI,Query
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from dotenv import load_dotenv
+ 
+from audio_processing import get_transcript
+from summary import get_textual_summary
+from visual_summary import get_visual_summary, get_graph
+from prompt2dict import prompt_2_json
+ 
+load_dotenv()
+ 
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-load_dotenv() 
 
-api_key = os.getenv("GOOGLE_API_KEY")
-MODEL_NAME= os.getenv("MODEL_NAME")
 
-genai.configure(api_key=api_key)
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # or ["*"] for dev
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
   
-@app.get("/")
-def read_root():
-    return {"message": "Hello, FastAPI!"}
 
 class VideoRequest(BaseModel):
     vid_url: str
 
-@app.post("/summarize")
-async def get_text_summary(data: VideoRequest):
-    result = await get_textual_summary(data.vid_url)
-    res2=await get_visual_summary(data.vid_url)
-    res2=get_graph(res2)
-    res=prompt_2_json(result)
-    #result="why god"
-    res["visual"]=res2
-    return res
+@app.get("/")
+def read_root():
+    return {"message": "Video Summarizer API is running."}
 
+
+@app.post("/summarize")
+async def summarize(data: VideoRequest):
+    """
+    Main endpoint. Accepts a YouTube URL and returns a structured summary
+    including textual summary, parsed sections, and a knowledge graph.
+ 
+    - Fetches the transcript once and passes it to both summary functions.
+    - Returns parsed JSON with goal, steps, entities, and visual graph data.
+    """
+    # Fetch transcript once — reused by both summary and visual
+    transcript = get_transcript(data.vid_url)
+ 
+    # Run both summaries using the same transcript
+    textual_result = await get_textual_summary(transcript)
+    visual_result = await get_visual_summary(transcript)
+ 
+    # Parse textual summary into structured dict
+    parsed = prompt_2_json(textual_result)
+ 
+    # Parse visual result into graph triples
+    parsed["visual"] = get_graph(visual_result)
+ 
+    return parsed
+ 
+ 
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
