@@ -16,7 +16,8 @@ def get_transcript(url_vid):
     id_vid = get_video_id(url_vid)
     proxy_config = WebshareProxyConfig(
         proxy_username=os.getenv("WEBSHARE_USERNAME"),
-        proxy_password=os.getenv("WEBSHARE_PASSWORD")
+        proxy_password=os.getenv("WEBSHARE_PASSWORD"),
+        proxy_scheme="http"  # force HTTP
     )
     ytt = YouTubeTranscriptApi(proxy_config=proxy_config)
     transcript = ytt.fetch(id_vid)
