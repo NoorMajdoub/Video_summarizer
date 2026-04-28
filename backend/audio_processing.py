@@ -21,10 +21,12 @@ def get_video_id(url):
     return parse_qs(parsed.query).get("v", [None])[0]
 
 
+
+
+
 def get_transcript(url_vid):
     """
-    Function to get the transcript of a youtube video.
-    Uses yt_dlp
+    Function to get the transcript of a youtube video using yt_dlp
     Args:
         url_vid: Full YouTube video URL.
     Returns:
@@ -53,13 +55,25 @@ def get_transcript(url_vid):
             f"Make sure the video has auto-generated captions enabled."
         )
 
-    # We read the downloaded subtitle file
-    with open(vtt_path, 'r',encoding="utf-8") as f:
+    with open(vtt_path, 'r', encoding="utf-8") as f:
         lines = f.readlines()
+
+    seen = set()
+    clean_lines = []
+    for line in lines:
+        line = line.strip()
+        if (not line or
+            '-->' in line or
+            line.startswith('WEBVTT') or
+            line.startswith('Kind:') or
+            line.startswith('Language:') or
+            line in seen):
+            continue
+        seen.add(line)
+        clean_lines.append(line)
     
-    #  vtt formatting to extract the text only
-    text = " ".join(
-        line.strip() for line in lines 
-        if line.strip() and '-->' not in line and not line.startswith('WEBVTT')
-    )
+    text = " ".join(clean_lines)
+    text = re.sub(r'<[^>]+>', '', text)
+
+    text = re.sub(r' +', ' ', text).strip()
     return text
