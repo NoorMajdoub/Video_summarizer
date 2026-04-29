@@ -1,3 +1,7 @@
+"""
+audio_processing.py 
+Main file for extporsting the audio from the video and getting the transcription
+"""
 import os
 import tempfile
 import re
@@ -24,15 +28,13 @@ def get_video_id(url):
 
 
 
-def get_transcript(url_vid):
+def get_transcript(url_vid):  # TODO add getting transcript audio with model if transcipt not found
     """
     Function to get the transcript of a youtube video using yt_dlp
     Args:
-        url_vid: Full YouTube video URL.
+        url_vid: Full YouTube video URL
     Returns:
-        Transcript as a single plain text string.
-    Raises:
-        FileNotFoundError: If no English subtitles were found for the video.
+        Transcript as a single plain text string
     """
     tmp_dir = tempfile.gettempdir()
     output_path = os.path.join(tmp_dir, "transcript")  #folder to save transcript in
@@ -57,7 +59,7 @@ def get_transcript(url_vid):
 
     with open(vtt_path, 'r', encoding="utf-8") as f:
         lines = f.readlines()
-
+    #section to clean the extracted transcription because vtt format is messy
     seen = set()
     clean_lines = []
     for line in lines:
