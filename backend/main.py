@@ -1,3 +1,7 @@
+"""
+main.py
+Main backend code for starting the server and setting up the endpoints
+"""
 import os
 import uvicorn
 import google.generativeai as genai
@@ -5,17 +9,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
- 
-from audio_processing import get_transcript
-from summary import get_textual_summary
-from visual_summary import get_visual_summary, get_graph
-from prompt2dict import prompt_2_json
- 
+from pyngrok import conf
+from pyngrok import ngrok
+import asyncio
+
 load_dotenv()
- 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-
-
+auth_token = os.getenv("ngrok_auth_token")
+conf.get_default().auth_token =auth_token
 
 app = FastAPI()
 app.add_middleware(
@@ -39,7 +39,7 @@ def read_root():
 async def summarize(data: VideoRequest):
 
     # Fetch transcript once — reused by both summary and visual
-    transcript = get_transcript(data.vid_url)
+    transcript = get_transcript(data.vid_url)  #gets transcript fine
  
     # Run both summaries using the same transcript
     textual_result = await get_textual_summary(transcript)
@@ -49,10 +49,22 @@ async def summarize(data: VideoRequest):
     parsed = prompt_2_json(textual_result)
  
     # Parse visual result into graph triples
-    parsed["visual"] = get_graph(visual_result)
+    parsed["visual"] = get_graph_nlp(transcript) 
  
     return parsed
  
  
+@app.post("/getcode")
+async def getcode(data: VideoRequest):
+    code = code_extraction_pipeline("dest",data.vid_url)
+    return {"code": code}
+
+
+# --- server startup ---
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    nest_asyncio.apply()
+    public_url = ngrok.connect(8001)
+    print("Backend URL:", public_url)
+    config = uvicorn.Config(app, host="0.0.0.0", port=8001)
+    server = uvicorn.Server(config)
+    asyncio.run(server.serve())
