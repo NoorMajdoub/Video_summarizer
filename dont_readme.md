@@ -4,9 +4,7 @@ An AI-powered system that analyzes and summarizes educational YouTube videos, co
 
 > This project goes beyond just sending a transcript to an LLM. It explores video summarization at the frame level, using CLIP + OCR to detect and extract code shown on screen — no transcript required for that part.
 
-> **Note:** Visual code extraction is still experimental but works well on videos under 20 minutes. See the pipeline section below for how it works.
 
-> **Full project report:** [Google Docs](https://docs.google.com/document/d/1d08XwuWxRc_0hRS_e6Q-mqldWKdUbsB45R0sisOfNyw/edit?usp=sharing)
 
 ---
 
@@ -15,7 +13,7 @@ An AI-powered system that analyzes and summarizes educational YouTube videos, co
 ```
 ├── backend/
 │   ├── audio_processing.py     # YouTube transcript extraction
-│   ├── llm_call.py             # LLM API interaction (Gemini)
+│   ├── llm_call.py             # LLM API interaction 
 │   ├── main.py                 # FastAPI app + ngrok server startup
 │   ├── prompt2dict.py          # Structures summaries (steps, entities, detailed)
 │   ├── prompts.py              # All prompt templates
@@ -23,13 +21,6 @@ An AI-powered system that analyzes and summarizes educational YouTube videos, co
 │   ├── summary.py              # Text summarization logic
 │   ├── video_processing.py     # CLIP + OCR code extraction pipeline
 │   └── visual_summary.py       # Visual analysis module
-├── Video_processing/
-│   ├── tools/                  # Utility scripts
-│   ├── v1/                     # Version 1: random frame extraction
-│   └── v2/                     # Version 2: CLIP-based smart extraction (current)
-├── frontend/                   # React + TypeScript UI
-├── notebooks_testing/          # Kaggle notebooks used during development
-└── video_summary_testing/      # Test materials and older approaches
 ```
 
 ---
@@ -40,13 +31,13 @@ An AI-powered system that analyzes and summarizes educational YouTube videos, co
 - **Step extraction** — identifies step-by-step instructions from educational content
 - **Entity recognition** — automatically identifies and defines technical terms
 - **Knowledge graph visualization** — interactive concept relationship maps
-- **Code extraction (experimental)** — detects and extracts code snippets from programming tutorials using CLIP + OCR, without relying on the transcript
+- **Code extraction** — detects and extracts code snippets from programming tutorials using CLIP + OCR, without relying on the transcript
 
 ---
 
 ## How the Code Extraction Works (CLIP + OCR Pipeline)
 
-Most video summarizers just send a transcript to an LLM. The more interesting part of this project is extracting **actual code directly from video frames** — no transcript needed for this part.
+Most video summarizers just send a transcript to an LLM. The more interesting part of this project is extracting **actual code directly from video frames** there is no transcript needed for this part.
 
 The pipeline has four stages:
 
@@ -105,8 +96,7 @@ Returned via /getcode API
 - **ngrok** — public tunnel for the Kaggle-hosted backend
 
 ### Frontend
-- **React** + **TypeScript**
-- **Tailwind CSS**
+
 
 ---
 
@@ -122,7 +112,7 @@ pip install -r requirements.txt
 Create a `.env` file in the `backend/` directory:
 
 ```env
-GEMINI_API_KEY=your_gemini_api_key
+GROK_API_KEY=your_gemini_api_key
 YOUTUBE_API_KEY=your_youtube_api_key
 ngrok_auth_token=your_ngrok_token
 ```
@@ -134,14 +124,16 @@ cd backend
 python main.py
 ```
 
-This starts the FastAPI server and opens a public ngrok tunnel. The tunnel URL is printed to the console — use it as the base URL for the frontend.
+This starts the FastAPI server and opens a public ngrok tunnel. The tunnel URL is printed to the console you can use it as the base URL for the frontend, in the youtube-summarizer.tsx file 
 
 ### Frontend
+https://github.com/NoorMajdoub/videosummarizerfronteend
 
 ```bash
 cd frontend
 npm install
 npm start
+
 ```
 
 ---
@@ -176,23 +168,8 @@ Both POST endpoints accept:
 
 ---
 
-## Testing
 
-- `notebooks_testing/` — Kaggle notebooks used for iterative development and testing
-- `video_summary_testing/` — additional validation materials and older approaches that didn't make it
 
-> For the visual/code extraction section, running directly from the Kaggle notebook is recommended since it requires a GPU and has the video file paths pre-configured.
-
----
-
-## Development Notes
-
-- `Video_processing/v1` — random frame extraction (not very accurate)
-- `Video_processing/v2` — CLIP-based smart extraction (current, better but slower)
-- Visual analysis is GPU-intensive; best run on Kaggle with a GPU accelerator
-- The backend runs on Kaggle and is exposed via ngrok — the frontend just needs the tunnel URL
-
----
 
 ## Requirements
 
