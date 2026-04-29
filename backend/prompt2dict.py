@@ -5,6 +5,13 @@ Parses the raw LLM textual summary output into a structured Python dictionary.
 
 
 def get_structures(prompt):
+    """
+    Pase the LLM output to extract the sections we need and save them in a dictionnary
+    Args:
+        Prompt: str : the output of the model
+    Returns : 
+        summary_dict : dict : the clean sections of the LLM 
+    """
     import re
 
     summary_dict = {}
@@ -40,46 +47,12 @@ def get_structures(prompt):
     return summary_dict
 
 
-def get_steps(steps):   #unused
-    split = steps.split("-")
-    if len(split) < 2:
-        return ["This video contains no clear steps."]
-    
-    cleaned = []
-    for s in split:
-        s = s.replace("*", "").replace("\n", " ").strip()
-        # Remove leading numbers and dots like "1." "2." etc
-        s = re.sub(r"^\d+[\.\)]\s*", "", s)
-        # Remove leftover section headers
-        if any(skip in s for skip in ["if any", "Steps", "Entity", "4."]):
-            continue
-        if s:
-            cleaned.append(s)
-    
-    return cleaned
 
-def get_entities(entities):
-    """
-    Parses the entities section string into a list of [name, description] pairs.
-    Args:
-        entities: Raw entities section string from Gemini output.
-    Returns:
-        List of [entity_name, description] pairs.
-    """
-    split = entities.split("--")
-    split = [x for x in split if x.strip()]
-    split = [
-        x.replace("*", "").replace(",", "").replace("\n", "").strip()
-        for x in split
-    ]
-
-    result = []
-    for item in split:
-        parts = item.split(":", 1)  # split on first colon only
-        if len(parts) == 2 and parts[0].strip() and parts[1].strip():
-            result.append([parts[0].strip(), parts[1].strip()])
-
-    return result
+def prompt_2_json(prompt: str) -> dict:
+    summary_dict = get_structures(prompt)
+    # get_structures now returns steps and entities already parsed
+    # so get_steps and get_entities are no longer needed
+    return summary_dict
 
 def prompt_2_json(prompt):
     summary_dict = get_structures(prompt)
