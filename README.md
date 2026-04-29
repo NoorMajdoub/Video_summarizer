@@ -63,23 +63,9 @@ Within confirmed code intervals, **EasyOCR** runs on a frame every 6 seconds. Ne
 
 The raw OCR output (which contains noise, misread characters, formatting issues) is passed to **Gemini** with a cleaning prompt to produce syntactically coherent, readable code.
 
-```
-YouTube URL
-    ↓
-Download video (yt-dlp)
-    ↓
-Frame sampling every 3s → HSV histogram diff → detect scene changes → intervals
-    ↓
-For each interval: sample 4 frames → CLIP classification (3 prompts)
-    ↓ (≥ 2/4 votes as code)
-EasyOCR every 6s within interval → deduplicate with SequenceMatcher
-    ↓
-Gemini LLM cleanup → clean extracted code
-    ↓
-Returned via /getcode API
-```
 
-> For a deeper look at the frame analysis approach, check `notes.md` in the `Video_processing/v2/` folder.
+
+> For a deeper look at the diagram Generated (Diagram.png)
 
 ---
 
