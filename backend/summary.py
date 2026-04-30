@@ -7,7 +7,7 @@ import os
 import google.generativeai as genai
 from dotenv import load_dotenv
 from llm_call import call_llm
-
+from prompts import get_summary_prompt
 
 
 load_dotenv()
