@@ -10,7 +10,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import spacy
 
-def get_graph_nlp(transcript: str):
+def get_graph_nlp(transcript):
     """
     Extracts simple knowledge graph triples from the text using spaCy , computes semantic similarity between
     entities using the embedding of the sentence
