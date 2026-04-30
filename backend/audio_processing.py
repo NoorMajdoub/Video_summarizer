@@ -9,7 +9,6 @@ import yt_dlp
 from urllib.parse import urlparse, parse_qs
 from dotenv import load_dotenv
  
-load_dotenv()
 
 
 #audio processing.py
@@ -28,7 +27,7 @@ def get_video_id(url):
 
 
 
-def get_transcript(url_vid):  # TODO add getting transcript audio with model if transcipt not found
+def get_transcript(url_vid):  
     """
     Function to get the transcript of a youtube video using yt_dlp
     Args:
