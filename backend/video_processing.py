@@ -10,10 +10,12 @@ import numpy as np
 from transformers import CLIPProcessor, CLIPModel
 from PIL import Image
 import torch
+import random
 import os
 import easyocr
 import cv2
 from difflib import SequenceMatcher
+from prompts import get_code_cleaning_prompt
 
 def code_extraction_pipeline(name,vid_url):
     model,processor=get_model()
