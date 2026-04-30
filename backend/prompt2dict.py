@@ -48,14 +48,8 @@ def get_structures(prompt):
 
 
 
-def prompt_2_json(prompt: str) -> dict:
-    summary_dict = get_structures(prompt)
-    # get_structures now returns steps and entities already parsed
-    # so get_steps and get_entities are no longer needed
-    return summary_dict
 
 def prompt_2_json(prompt):
     summary_dict = get_structures(prompt)
     # get_structures now returns steps and entities already parsed
-    # so get_steps and get_entities are no longer needed
     return summary_dict
