@@ -3,22 +3,18 @@ summary.py
 Generates a structured textual summary of a YouTube video using LLM.
 """
  
-import os
-import google.generativeai as genai
-from dotenv import load_dotenv
 from llm_call import call_llm
 from prompts import get_summary_prompt
 
 
-load_dotenv()
 async def get_textual_summary(transcript):
     """
-    Generates a structured textual summary from a video transcript.
+    Generates a structured textual summary from a video transcript
     Args:
-        transcript: Plain text transcript of the video (fetched once in main.py).
+        transcript: Plain text transcript of the video (fetched once in main.py)
     Returns:
-        Structured summary as a raw string from Gemini.
+        Structured summary as a raw string from the llm used
     """
     res=call_llm(get_summary_prompt(transcript)) 
-    print(res)
+   # print(res)
     return res
