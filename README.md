@@ -7,6 +7,7 @@ An AI-powered system that analyzes and summarizes educational YouTube videos, co
 Check the demo video ! https://drive.google.com/file/d/1wNFtiX-p4DARryZoQMtN3qrQinexeCt5/view?usp=sharing
 ---
 
+
 ## Project Structure
 
 ```
