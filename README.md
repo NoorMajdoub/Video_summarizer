@@ -2,7 +2,7 @@
 
 An AI-powered system that analyzes and summarizes educational YouTube videos, combining text-based analysis with visual content processing to extract structured knowledge , including actual **code snippets extracted directly from video frames**.
 
-> This project goes beyond just sending a transcript to an LLM. It explores video summarization at the frame level, using CLIP + OCR to detect and extract code shown on screen , so far no LLM can do this :D 
+> This project goes beyond just sending a transcript to an LLM. It explores video summarization at the frame level, using CLIP + OCR to detect and extract code shown on screen , so far no LLM can do this :D.
 
 Please Check the demo video (showing the project work in real time with backend hosted live on kaggle and front end on vercel) ! https://drive.google.com/file/d/1wNFtiX-p4DARryZoQMtN3qrQinexeCt5/view?usp=sharing
 ---
