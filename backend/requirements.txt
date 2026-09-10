@@ -7,3 +7,20 @@ fastapi
 yt-dlp
 opencv-python
 transformers
+neo4j
+sentence-transformers
+numpy
+
+# --- previously missing but actually imported by the code ---
+groq                 # llm_call.py
+spacy                # visual_summary.py (get_graph_nlp)
+scikit-learn         # visual_summary.py (cosine_similarity)
+easyocr              # video_processing.py
+Pillow               # video_processing.py (PIL.Image)
+pyngrok              # main.py
+nest_asyncio         # main.py
+torch                # video_processing.py / visual_summary.py
+
+# spaCy's small English model isn't on PyPI under a normal name -- install
+# separately after this file, e.g.:
+#   python -m spacy download en_core_web_sm
