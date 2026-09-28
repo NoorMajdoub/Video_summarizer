@@ -47,8 +47,28 @@ def get_transcript(url_vid):
         'outtmpl': output_path,
          "quiet": True,
     }
+
+    # NOTE: this previously had no cookies configuration at all, so every
+    # /summarize call hit YouTube unauthenticated -- which is exactly what
+    # triggers "Sign in to confirm you're not a bot." video_processing.py's
+    # download_vid already solved this for /getcode; mirroring the same
+    # logic here so /summarize uses the same cookies.
+    cookies_file = os.getenv("VIDEO_COOKIES_FILE")
+    if cookies_file and os.path.exists(cookies_file):
+        ydl_opts['cookiefile'] = cookies_file
+    else:
+        browser = os.getenv("VIDEO_COOKIES_BROWSER", "chrome")
+        ydl_opts['cookiesfrombrowser'] = (browser,)
+
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([url_vid])
+        return_code = ydl.download([url_vid])
+
+    if return_code != 0:
+        raise RuntimeError(
+            f"yt-dlp reported a failure fetching subtitles for {url_vid} "
+            f"(return code {return_code}). Check the logs above this line "
+            f"for yt-dlp's own error message."
+        )
 
     if not os.path.exists(vtt_path):
         raise FileNotFoundError(
